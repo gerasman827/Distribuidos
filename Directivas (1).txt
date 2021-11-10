@@ -1,0 +1,134 @@
+public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+        private readonly string _policyName = "CorsPolicy"; //libreria cors
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+              //libreria cors
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy(name: _policyName, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ejemplo2", Version = "v1" });
+            });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                
+
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ejemplo2 v1"));
+            }
+
+            app.UseHttpsRedirection();
+           
+            app.UseRouting();
+ 
+            app.UseAuthorization();
+            app.UseCors(_policyName);//libreria cors
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
+    }
+}
+
+
+_________________Servicios Rest (controlador controllerValues)
+using Microsoft.AspNetCore.Cors;//libreria cor
+//NUEVAS
+using System.Text.Json;
+
+
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace Ejemplo2.Controllers
+{
+
+  
+    [Route("api/[controller]")]
+    [ApiController]
+    [EnableCors("CorsPolicy")]//libreria cors
+    public class ValuesController : ControllerBase
+    {
+        // GET: api/<ValuesController>
+       
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET api/<ValuesController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            Console.Write("Hola Mundo Sobre Linea");
+            return "value";
+        }
+        [EnableCors("CorsPolicy")]
+        // POST api/<ValuesController>
+        [HttpPost]
+        public String Post([FromBody] JsonElement carrito)// ejemplo para recibir un conjunto de datos del front-end
+        {
+         
+            String cedula = carrito.GetProperty("ced").ToString();
+            String nombre = carrito.GetProperty("nom").ToString();
+         }
+
+__________________________________________________________
+FRONT END
+
+function Enviarback()
+{   
+  var request = new Request('https://localhost:44374/api/Values', {
+        method: 'Post',
+        //mode: 'no-cors',
+        //credentials: 'omit',
+       // cache: 'only-if-cached',
+        //referrerPolicy: 'no-referrer',
+       headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+        body: JSON.stringify({
+          ced: "11",
+          nom: "pedritoF",
+          edad: 199,
+          
+       //   surname: "Swift"
+      })
+    });
+
+    fetch(request)
+    .then(function(response) {
+        return response.text();
+    })
+    .then(function(data) {
+        console.log('data = ', data);
+    })
+    .catch(function(err) {
+        console.error(err);
+    });
+}

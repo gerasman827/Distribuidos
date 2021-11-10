@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\geras\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\geras\\.nuget\\packages"
+    ]
+  }
+}
