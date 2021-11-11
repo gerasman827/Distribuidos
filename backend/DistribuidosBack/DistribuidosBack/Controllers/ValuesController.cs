@@ -27,6 +27,10 @@ namespace DistribuidosBack.Controllers
             return json;
         }
 
+
+
+
+
         // GET api/<ValuesController>/5
         [HttpGet("{cedula}")]
         public string Get(string cedula)
@@ -36,6 +40,12 @@ namespace DistribuidosBack.Controllers
             String mensaje = u.listar(conexion);
             return mensaje;
         }
+
+
+
+
+
+
 
         // POST api/<ValuesController>
         [HttpPost]
@@ -52,11 +62,22 @@ namespace DistribuidosBack.Controllers
 
         }
 
+
+
         // PUT api/<ValuesController>/5
         [HttpPut("{i}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(string id, [FromBody] JsonElement datos)
         {
+
+            String cedula = datos.GetProperty("cedula").ToString();
+            String nombre = datos.GetProperty("nombre").ToString();
+            int edad = datos.GetProperty("edad").GetInt32();
+            Conexion conexion = new Conexion();
+            Usuarios u = new Usuarios(cedula, nombre, edad);
+            String mensaje = u.modificar(conexion);
         }
+
+
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{cedula}")]

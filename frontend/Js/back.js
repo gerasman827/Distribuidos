@@ -30,8 +30,8 @@ function Enviarback() {
     })
   });
 
-// jlkdskfalksjdf asjdf 
-  fetch(request) 
+  // jlkdskfalksjdf asjdf 
+  fetch(request)
     .then(function (response) {
       return response.text();
     })
@@ -173,5 +173,110 @@ function contenido(data) {
     divppl.appendChild(col3);
   }
 }
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+function consultarParaModificarU() {
+  let cedula = document.getElementById("cedula_consultar").value;
+
+  if (cedula === ''){
+    alert("Debe ingresar un valor en el campo cédula")
+    return
+  }
+
+  var diri = 'https://localhost:44373/api/Values/' + cedula;
+
+
+  var request = new Request(diri, {
+    method: 'Get',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+
+
+  fetch(request)
+    .then(function (response) {
+      return response.text();
+    })
+    .then(function (data) {
+      alert("infor: "+data);
+      mostrarUsuario(data)
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+
+}
+
+
+function mostrarUsuario(data) {
+  json = JSON.parse(data);
+  let nombre = json[0].nombre;
+  let cedula = json[0].cedula;
+  let edad = json[0].edad;
+
+
+  document.getElementById("nombre").setAttribute('value',nombre);
+  document.getElementById("cedula").setAttribute('value', cedula);
+  document.getElementById("edad").setAttribute('value', edad);
+
+}
+
+
+
+
+
+
+function actualizarCambiosUsuario() {
+
+  let cedulaAntigua = document.getElementById("cedula_consultar").value;
+
+  
+  let nombreNuevo = document.getElementById("nombre").value;
+  let edadNueva = document.getElementById("edad").value;
+
+  var diri = 'https://localhost:44373/api/Values/'+cedulaAntigua;
+
+
+
+  var request = new Request(diri, {
+    method: 'Put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      cedula: cedulaAntigua,
+      nombre: nombreNuevo,
+      edad: parseInt(edadNueva)
+      //   surname: "Swift"
+    })
+  });
+
+
+  fetch(request)
+    // .then(function (response) {
+    //   return response.text();
+    // })
+    .then(function (data) {
+      alert("Datos actualizados con éxito");
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+
+}
+
+
+
+
+
 
 
