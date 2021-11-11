@@ -86,6 +86,21 @@ namespace DistribuidosBack.Models
         }
 
 
+        public String modificar(Conexion cone)
+        {
+            try
+            {
+
+                //String sql = "UPDATE usuarios SET cedua = '"this.cedula"', nombre='"this.nombre"', edad='"this.edad"' WEHRE cedula ='"cedulaAntigua"'";
+                String sql = "UPDATE usuarios SET nombre='"+this.nombre+"', edad='"+this.edad+"' WHERE cedula='"+this.cedula+"';";
+                new NpgsqlCommand(sql, cone.getCone()).ExecuteNonQuery();
+                return "datos actualizados";
+            }
+            catch
+            {
+                return "error";
+            }
+        }
 
 
 
