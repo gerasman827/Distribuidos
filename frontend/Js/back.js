@@ -294,7 +294,7 @@ function login(){
    .then(function(data){
      
      if(data == "si"){
-       localStorage.setItem('cedula',cedula);
+       localStorage.setItem('cedula', cedula);
        window.open("sistemas.html");
      }
      if (cedula === "111" && nombre == "admin"){
@@ -306,6 +306,12 @@ function login(){
    })
 }
 
+
+
+function menu(){
+  let campo = localStorage.getItem();
+  
+}
 
 
 
