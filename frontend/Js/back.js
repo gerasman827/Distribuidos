@@ -277,6 +277,44 @@ function actualizarCambiosUsuario() {
 
 
 
+//**************************************** LOGIN ************************/
+
+function login(){
+  var nombre = document.getElementById("nombre").value;
+  var cedula = document.getElementById("cedula").value;
+
+  var request = new Request('https://localhost:44373/api/Values/login/'+cedula+"/"+nombre +"/", {
+    method: 'Get',
+  });
+
+  fetch(request)
+   .then(function(response){
+     return response.text();
+   })
+   .then(function(data){
+     
+     if(data == "si"){
+       localStorage.setItem('cedula', cedula);
+       window.open("sistemas.html");
+     }
+     if (cedula === "111" && nombre == "admin"){
+       window.open("seditores.html");
+     }
+   })
+   .catch(function(err){
+     console.log("error: "+err);
+   })
+}
+
+
+
+function menu(){
+  let campo = localStorage.getItem();
+  
+}
+
+
+
 
 
 
