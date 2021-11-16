@@ -42,6 +42,16 @@ namespace DistribuidosBack.Controllers
         }
 
 
+        
+        [HttpGet("login/{cedula}/{nombre}")]
+        public string Get(string cedula,string nombre)
+        {
+            Conexion conexion = new Conexion();
+            Usuarios u = new Usuarios(cedula, nombre, 0);
+            String mensaje = u.login(conexion);
+            return mensaje;
+        }
+
 
 
 
@@ -88,5 +98,7 @@ namespace DistribuidosBack.Controllers
             String mensaje = u.eliminar(conexion);
             return mensaje;
         }
+
+
     }
 }

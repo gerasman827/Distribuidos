@@ -120,5 +120,58 @@ namespace DistribuidosBack.Models
             }
         }
 
+
+        public String login(Conexion cone)
+        {
+            String Mensaje = "";
+            String sql = "";
+            dynamic usuarios;
+            usuarios = new ExpandoObject();
+            try
+            {
+                NpgsqlCommand cmd = new NpgsqlCommand();
+
+                
+                if (this.cedula != "")
+                {
+                    sql = "select * from usuarios where cedula ='" + this.cedula + "' AND nombre = '"+this.nombre+"'";
+                }
+                var reader = new NpgsqlCommand(sql, cone.getCone()).ExecuteReader();
+                var todoslosusers = new List<dynamic>();
+
+                while (reader.Read())
+                {
+                   
+
+                    usuarios.cedula = reader.GetString(0);
+                  //  usuarios.nombre = reader.GetString(1);
+                   // usuarios.edad = reader.GetString(2);
+
+   //                 todoslosusers.Add(usuarios);
+
+                }
+                string Json = Newtonsoft.Json.JsonConvert.SerializeObject(todoslosusers); ;
+
+
+                reader.Close();
+                // return Json;
+                if (usuarios.cedula != "" | usuarios.cedula != null)
+                {
+                    return "si";
+                }
+                else
+                {
+                    return "no";
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                Mensaje = "Error" + E;
+            }
+            return Mensaje;
+        }
+
     }
 }
