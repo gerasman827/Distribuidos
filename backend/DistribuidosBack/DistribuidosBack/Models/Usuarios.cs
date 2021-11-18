@@ -155,7 +155,7 @@ namespace DistribuidosBack.Models
 
                 reader.Close();
                 // return Json;
-                if (usuarios.cedula != "" | usuarios.cedula != null)
+                if ( (usuarios.cedula != "" | usuarios.cedula != null) && (usuarios.cedula != "111" && usuarios.nombre != "admin"))
                 {
                     return "si";
                 }
