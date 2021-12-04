@@ -308,10 +308,30 @@ function login(){
 
 
 
-function menu(){
-  let campo = localStorage.getItem();
-  
+function EnviarWebService(){
+  let cedula = "123";
+  let nombre = "hola"
+  var request = new Request('https://localhost:44373/api/ValuesRemote/webservice/'+cedula+"/"+nombre+"/", {
+    method: 'Get',
+  });
+
+  fetch(request)
+   .then(function(response){
+     return response.text();
+   })
+   .then(function(data){
+     alert(data);
+     return data;
+   })
+   .catch(function(err){
+     console.log("error: "+err);
+   })
 }
+
+
+
+
+
 
 
 
